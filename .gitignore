@@ -1,0 +1,6 @@
+*.pyc
+*.iml
+*.xml
+fabfile.pyc
+.vscode
+app/inputs/*.txt

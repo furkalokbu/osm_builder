@@ -1,0 +1,14 @@
+version: '3'
+
+
+services:
+  python-app:
+    image: python:3.9
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    tty: true
+    stdin_open: true
+
+    command: python ./create_test_files.py ukraine
+  
