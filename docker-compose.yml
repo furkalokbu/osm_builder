@@ -1,14 +1,25 @@
 version: '3'
 
-
 services:
-  python-app:
+  test-creater-app:
     image: python:3.9
+    working_dir: /app
     volumes:
       - ./app:/app
+    command: python ./create_test_files.py
+  
+  map_builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
     working_dir: /app
     tty: true
     stdin_open: true
+    command: python ./osm_builder.py
+    depends_on:
+      - test-creater-app
+    volumes:
+      - ./app:/app
 
-    command: python ./create_test_files.py ukraine
-  
+volumes:
+  app:

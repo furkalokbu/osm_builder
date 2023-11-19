@@ -1,39 +1,37 @@
 import os, sys
 import random
 
+def delete_files_in_directory(directory):
+    for file_name in os.listdir(directory):
+        file_path = os.path.join(directory, file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
 
-def delete_existing_files():
-    for i in range(1, 101):
-        file_path = f"inputs/input_{i}.txt"
-        if os.path.exists(file_path):
-            os.remove(file_path)
+def generate_input_parameters(country=None):
 
+    min_lat = round(random.uniform(-90, 90), 4)
+    min_lon = round(random.uniform(-180, 180), 4)
+    max_lat = round(random.uniform(min_lat, 90), 4)
+    max_lon = round(random.uniform(min_lon, 180), 4)
 
-def generate_test_input_file(file_index, country_name):
-    if country_name.lower() == 'ukraine':
-        latitude1 = random.uniform(44.4, 52.2)
-        longitude1 = random.uniform(22.1, 40.2)
-        latitude2 = random.uniform(44.4, 52.2)
-        longitude2 = random.uniform(22.1, 40.2)
-    else:
-        latitude1 = random.uniform(0, 90)
-        longitude1 = random.uniform(0, 180)
-        latitude2 = random.uniform(0, 90)
-        longitude2 = random.uniform(0, 180)
+    zoom = random.randint(1, 18)
 
-    map_id = f"map_{file_index}"
-    zoom_level = random.randint(8, 15)
-
-    with open(f"inputs/input_{file_index}.txt", 'w') as file:
-        file.write(f"{latitude1},{longitude1},{latitude2},{longitude2},{map_id},{zoom_level}")
-
-
-def main():
-    delete_existing_files()
-    country_name = sys.argv[1] if len(sys.argv) > 1 else 'another_country'
-    for i in range(1, 101):
-        generate_test_input_file(i, country_name)
+    return min_lat, min_lon, max_lat, max_lon, zoom
 
 
 if __name__ == "__main__":
-    main()
+
+    input_path = 'inputs/'
+
+    delete_files_in_directory(input_path)
+
+    for i in range(1, 101):
+        file_name = os.path.join(input_path, f"input_parameters_{i}.txt")
+
+        parameters = generate_input_parameters()
+
+        with open(file_name, "w") as file:
+            file.write("\n".join(map(str, parameters)))
