@@ -7,6 +7,7 @@ services:
     volumes:
       - ./app:/app
     command: python ./create_test_files.py
+    # command: python ./create_test_file_cities.py
   
   map_builder:
     build:

@@ -4,3 +4,4 @@
 fabfile.pyc
 .vscode
 app/inputs/*.txt
+app/output/
